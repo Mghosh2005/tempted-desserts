@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Tempted Desserts — Artisan homemade bakery. Cakes, cookies, pastries and more, baked fresh with love."/>
+<title>Tempted Desserts – Homemade Bakery</title>
+<link rel="stylesheet" href="/css/styles.css"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>"/>
+</head>
+<body>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- LOADER OVERLAY -->
+<div class="loader-overlay" id="loader">
+  <div class="loader-spin"></div>
+  <div class="loader-text" id="loaderText">Loading...</div>
+</div>
+
+<!-- ═══════════════════════════════
+     CUSTOMER SITE
+═══════════════════════════════ -->
+<div id="sitePage" class="page active">
+
+  <nav class="main-nav">
+    <div class="nav-logo" onclick="showPage('sitePage')">T<span>e</span>mpted</div>
+    <ul class="nav-links">
+      <li><a onclick="goTo('menuSec')">Menu</a></li>
+      <li><a onclick="goTo('orderSec')">Order</a></li>
+      <li><a onclick="goTo('storySec')">Our Story</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="nbtn nbtn-out" onclick="openLogin()">⚙ Admin</button>
+      <button class="nbtn nbtn-dark" onclick="goTo('orderSec')">Order Now</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-text">
+      <div class="eyebrow">Artisan Homemade Bakery</div>
+      <h1 class="hero-title">
+        Baked with<br/><em>love,</em><br/>made to tempt
+      </h1>
+      <p class="hero-sub">Every bite tells a story of care, quality ingredients, and the warmth of a home kitchen. Because the best things are always made from scratch.</p>
+      <div class="ctas">
+        <button class="btn btn-dark" onclick="goTo('menuSec')">View Our Menu</button>
+        <button class="btn btn-out" onclick="goTo('orderSec')">Place an Order</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-circle">
+        <div class="hc-icon">🎂</div>
+        <div class="hc-name">Tempted<br/>Desserts</div>
+        <div class="hc-tag">Handmade with heart</div>
+      </div>
+      <div class="hero-float f1">
+        <div class="hf-icon">🍪</div>
+        <div class="hf-text"><strong>Fresh Daily</strong>Baked every morning</div>
+      </div>
+      <div class="hero-float f2">
+        <div class="hf-icon">✨</div>
+        <div class="hf-text"><strong>Custom Orders</strong>Any occasion</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRIP -->
+  <div class="strip">
+    <div><div class="strip-num">100%</div><div class="strip-lbl">Homemade &amp; Fresh</div></div>
+    <div><div class="strip-num">♡</div><div class="strip-lbl">Made with Love</div></div>
+    <div><div class="strip-num">Custom</div><div class="strip-lbl">Orders Welcome</div></div>
+  </div>
+
+  <!-- MENU -->
+  <section class="section" id="menuSec">
+    <div class="sec-hd">
+      <div class="sec-eye">What We Bake</div>
+      <h2 class="sec-title">Our <em>Signature</em> Menu</h2>
+    </div>
+    <div class="tabs" id="siteTabs"></div>
+    <div class="menu-grid" id="siteGrid">
+      <div class="menu-loading"><div class="loader-spin"></div></div>
+    </div>
+  </section>
+
+  <div class="div-sep"><div class="div-line"></div><div class="div-dot">✦</div><div class="div-line"></div></div>
+
+  <!-- ORDER -->
+  <section class="order-sec" id="orderSec">
+    <div class="order-grid">
+      <div>
+        <div class="sec-eye" style="justify-content:flex-start;">Place Your Order</div>
+        <h2 class="sec-title" style="text-align:left;margin-bottom:0;">Ready to be <em>Tempted?</em></h2>
+        <p class="order-intro">Reach out directly via WhatsApp, call, or email. Or fill the quick form and we'll confirm your order personally.</p>
+        <div class="clist">
+          <a class="ci" href="https://wa.me/917585820245" target="_blank">
+            <div class="ci-ico">💬</div>
+            <div><div class="ci-lbl">WhatsApp Us</div><div class="ci-val">+91 75858 20245</div></div>
+          </a>
+          <a class="ci" href="tel:+917585820245">
+            <div class="ci-ico">📞</div>
+            <div><div class="ci-lbl">Call Us</div><div class="ci-val">+91 75858 20245</div></div>
+          </a>
+          <a class="ci" href="mailto:ghoshmohona8@gmail.com">
+            <div class="ci-ico">✉️</div>
+            <div><div class="ci-lbl">Email Us</div><div class="ci-val">ghoshmohona8@gmail.com</div></div>
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="form-title">Quick Order Form</div>
+        <div class="form-sub">Fill this in and we'll reach out to confirm your order.</div>
+        <div id="oBody">
+          <div class="frow">
+            <div class="fg"><label>Your Name *</label><input type="text" id="oName" placeholder="Your name"/></div>
+            <div class="fg"><label>Phone / WhatsApp *</label><input type="tel" id="oPhone" placeholder="Your number"/></div>
+          </div>
+          <div class="fg"><label>Email</label><input type="email" id="oEmail" placeholder="your@email.com"/></div>
+          <div class="fg"><label>What would you like? *</label>
+            <select id="oItem"><option value="">— Select an item —</option></select>
+          </div>
+          <div class="fg"><label>Occasion / Special Requests</label>
+            <textarea id="oNote" placeholder="e.g. Birthday cake for 20 people, nut-free, delivery on 25th March..."></textarea>
+          </div>
+          <button class="sbtn" id="oBtn" onclick="submitOrder()">Send My Order ✦</button>
+        </div>
+        <div class="suc" id="oSuc">
+          <div class="suc-i">🎂</div>
+          <div class="suc-t">Order Received!</div>
+          <div class="suc-s">Thank you! We'll reach out shortly on WhatsApp or phone to confirm. Can't wait to bake for you!</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div-sep"><div class="div-line"></div><div class="div-dot">✦</div><div class="div-line"></div></div>
+
+  <!-- STORY -->
+  <section class="story-sec" id="storySec">
+    <div class="story-in">
+      <div class="sec-eye">Our Story</div>
+      <p class="story-q">"Every recipe holds a memory. Every cake carries a little piece of home."</p>
+      <p class="story-b">Tempted was born out of a deep love for baking and a belief that homemade always tastes better. Every item is crafted by hand in a home kitchen, using quality ingredients chosen with care. There are no shortcuts here — only slow, thoughtful baking that results in something genuinely worth savouring. Whether it's a birthday cake, a box of cookies, or a loaf of fresh bread, every order gets our full attention and heart.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <div class="f-logo">T<span>e</span>mpted</div>
+      <div class="f-tag">Homemade Artisan Bakery</div>
+    </div>
+    <div class="f-links">
+      <a onclick="goTo('menuSec')">Menu</a>
+      <a onclick="goTo('orderSec')">Order</a>
+      <a onclick="goTo('storySec')">Our Story</a>
+      <a href="mailto:ghoshmohona8@gmail.com">Email</a>
+      <a href="https://wa.me/917585820245" target="_blank">WhatsApp</a>
+    </div>
+    <div class="f-copy">© 2025 Tempted Desserts · Made with ♡</div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════
+     ADMIN PANEL
+═══════════════════════════════ -->
+<div id="adminPage" class="page">
+
+  <nav class="adm-nav">
+    <div class="adm-logo">Tempted <small>Admin</small></div>
+    <div class="adm-acts">
+      <button class="ab ab-o" onclick="showPage('sitePage')">← View Site</button>
+      <button class="ab ab-r" onclick="doLogout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="adm-tabs-nav">
+    <button class="adm-tab-btn active" data-tab="menuTab" onclick="showAdminTab('menuTab')">🍰 Menu</button>
+    <button class="adm-tab-btn" data-tab="ordersTab" onclick="showAdminTab('ordersTab')">📋 Orders</button>
+  </div>
+
+  <!-- MENU TAB -->
+  <div class="adm-panel active" id="menuTab">
+    <div class="adm-menu-layout">
+
+      <!-- ADD FORM -->
+      <div class="adm-side">
+        <div class="aside-title">✦ Add New Item</div>
+        <div class="af"><label>Item Name *</label>
+          <input type="text" id="aName" placeholder="e.g. Red Velvet Cake"/>
+        </div>
+        <div class="af"><label>Category *</label>
+          <select id="aCat">
+            <option value="">— Choose category —</option>
+            <option>Cakes</option><option>Cookies</option><option>Pastries</option>
+            <option>Breads</option><option>Specials</option><option>Drinks</option><option>Other</option>
+          </select>
+        </div>
+        <div class="af"><label>Emoji (optional)</label>
+          <input type="text" id="aEmoji" placeholder="🎂" maxlength="4"/>
+        </div>
+        <div class="af"><label>Description</label>
+          <textarea id="aDesc" placeholder="Describe this item..."></textarea>
+        </div>
+        <div class="af"><label>Price</label>
+          <input type="text" id="aPrice" placeholder="e.g. ₹350 or Custom pricing"/>
+        </div>
+        <div class="af">
+          <label>Photo</label>
+          <div class="pua" id="aPuArea">
+            <input type="file" id="aPhoto" accept="image/*"
+              onchange="handlePhotoSelect(this,'aPrev','aPuArea')"/>
+            <div class="pua-ico">📷</div>
+            <div class="pua-txt">
+              <strong>Click or drag to upload</strong>
+              JPG, PNG, WEBP · Max 8MB
+            </div>
+            <div class="pua-prev" id="aPrev">
+              <img src="" alt=""/>
+              <div class="pua-prev-name"></div>
+              <button class="pua-clr" onclick="clearPhoto('aPhoto','aPrev','aPuArea',event)">✕</button>
+            </div>
+          </div>
+        </div>
+        <button class="add-btn" id="addItemBtn" onclick="addItem()">Add to Menu ✦</button>
+        <div class="add-msg" id="addMsg"></div>
+      </div>
+
+      <!-- ITEMS GRID -->
+      <div>
+        <div class="adm-main-title">Menu Items</div>
+        <div class="adm-count" id="admCount">Loading...</div>
+        <div class="adm-filter" id="admTabs"></div>
+        <div class="adm-grid" id="admGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORDERS TAB -->
+  <div class="adm-panel" id="ordersTab">
+    <div class="orders-header">
+      <div>
+        <div class="orders-title">📋 Customer Orders</div>
+        <div class="orders-count" id="ordersCount">Loading...</div>
+      </div>
+      <div class="orders-filter">
+        <button class="of-btn active" data-filter="all"     onclick="loadAdminOrders('all')">All</button>
+        <button class="of-btn"        data-filter="new"     onclick="loadAdminOrders('new')">New</button>
+        <button class="of-btn"        data-filter="confirmed" onclick="loadAdminOrders('confirmed')">Confirmed</button>
+        <button class="of-btn"        data-filter="preparing" onclick="loadAdminOrders('preparing')">Preparing</button>
+        <button class="of-btn"        data-filter="ready"   onclick="loadAdminOrders('ready')">Ready</button>
+        <button class="of-btn"        data-filter="delivered" onclick="loadAdminOrders('delivered')">Delivered</button>
+      </div>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Customer</th>
+            <th>Phone</th>
+            <th>Order</th>
+            <th>Notes</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="ordersTbody">
+          <tr><td colspan="7" class="no-orders">Loading orders...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN OVERLAY -->
+<div class="lov" id="loginOv">
+  <div class="lbox">
+    <div class="l-logo">T<span style="color:var(--gold-d)">e</span>mpted</div>
+    <div class="l-sub">Admin Access</div>
+    <div class="af" style="text-align:left;">
+      <label>Password</label>
+      <input type="password" id="lPwd" placeholder="Enter your password"/>
+    </div>
+    <button class="l-btn" onclick="doLogin()">Enter Admin Panel</button>
+    <div class="l-err" id="lErr"></div>
+    
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="mov" id="editOv">
+  <div class="modal">
+    <div class="modal-title">✦ Edit Menu Item</div>
+    <input type="hidden" id="eId"/>
+    <div class="af"><label>Item Name *</label><input type="text" id="eName"/></div>
+    <div class="af"><label>Category *</label>
+      <select id="eCat">
+        <option>Cakes</option><option>Cookies</option><option>Pastries</option>
+        <option>Breads</option><option>Specials</option><option>Drinks</option><option>Other</option>
+      </select>
+    </div>
+    <div class="af"><label>Emoji</label><input type="text" id="eEmoji" maxlength="4"/></div>
+    <div class="af"><label>Description</label><textarea id="eDesc"></textarea></div>
+    <div class="af"><label>Price</label><input type="text" id="ePrice"/></div>
+    <div class="af"><label>Visibility</label>
+      <select id="eAvail">
+        <option value="1">✅ Available (visible to customers)</option>
+        <option value="0">🙈 Hidden (not visible)</option>
+      </select>
+    </div>
+    <div class="af">
+      <label>Photo</label>
+      <div class="pua" id="ePuArea">
+        <input type="file" id="ePhoto" accept="image/*"
+          onchange="handlePhotoSelect(this,'ePrev','ePuArea')"/>
+        <div class="pua-ico">📷</div>
+        <div class="pua-txt"><strong>Click to change photo</strong>Leave empty to keep current</div>
+        <div class="pua-prev" id="ePrev">
+          <img src="" alt=""/>
+          <div class="pua-prev-name"></div>
+          <button class="pua-clr" onclick="clearPhoto('ePhoto','ePrev','ePuArea',event)">✕</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="msave" id="editSaveBtn" onclick="saveEdit()">Save Changes</button>
+      <button class="mcancel" onclick="closeEdit()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>

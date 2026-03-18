@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: tempted-bakery
+    env: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ADMIN_PASSWORD
+        generateValue: false
+        value: tempted2024
+      - key: JWT_SECRET
+        generateValue: true
+    disk:
+      name: uploads
+      mountPath: /opt/render/project/src/uploads
+      sizeGB: 1

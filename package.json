@@ -1,0 +1,10 @@
+{
+  "name": "tempted-bakery",
+  "version": "1.0.0",
+  "description": "Tempted Desserts — Full Stack Bakery Website",
+  "scripts": {
+    "install:all": "cd backend && npm install",
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev"
+  }
+}
