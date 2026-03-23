@@ -1,52 +1,68 @@
-// routes/orders.js
+// routes/orders.js — MongoDB + Email notifications
 const router = require('express').Router();
 const auth   = require('../middleware/auth');
-const { run, get, all, lastInsertId } = require('../db');
+const Order  = require('../models/Order');
+const { sendOwnerNotification, sendCustomerConfirmation, sendStatusUpdate } = require('../utils/email');
 
-// POST /api/orders — public
-router.post('/', (req, res) => {
-  const { customer_name, phone, email, item_name, notes } = req.body;
-  if (!customer_name || !phone || !item_name)
-    return res.status(400).json({ error: 'Name, phone and item are required' });
+// POST /api/orders — public: place order
+router.post('/', async (req, res) => {
+  try {
+    const { customer_name, phone, email, item_name, notes } = req.body;
+    if (!customer_name || !phone || !item_name)
+      return res.status(400).json({ error: 'Name, phone and item are required' });
 
-  run(
-    'INSERT INTO orders (customer_name, phone, email, item_name, notes) VALUES (?,?,?,?,?)',
-    [customer_name.trim(), phone.trim(), email||'', item_name.trim(), notes||'']
-  );
-  const order = get('SELECT * FROM orders WHERE id=?', [lastInsertId()]);
-  res.status(201).json({ success: true, order });
+    const order = await Order.create({ customer_name, phone, email, item_name, notes });
+
+    // Send emails in background (don't block response)
+    Promise.allSettled([
+      sendOwnerNotification(order),       // notify you (owner)
+      sendCustomerConfirmation(order),    // confirm to customer (if they gave email)
+    ]).then(results => {
+      results.forEach(r => {
+        if (r.status === 'rejected') console.warn('Email error:', r.reason?.message);
+      });
+    });
+
+    res.status(201).json({ success: true, order });
+  } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
 // GET /api/orders — admin
-router.get('/', auth, (req, res) => {
-  const { status } = req.query;
-  const orders = status
-    ? all('SELECT * FROM orders WHERE status=? ORDER BY created_at DESC', [status])
-    : all('SELECT * FROM orders ORDER BY created_at DESC');
-  res.json(orders);
+router.get('/', auth, async (req, res) => {
+  try {
+    const filter = {};
+    if (req.query.status) filter.status = req.query.status;
+    const orders = await Order.find(filter).sort({ createdAt: -1 });
+    res.json(orders);
+  } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
-// PUT /api/orders/:id/status — admin
-router.put('/:id/status', auth, (req, res) => {
-  const { id } = req.params;
-  const { status } = req.body;
-  const allowed = ['new','confirmed','preparing','ready','delivered','cancelled'];
-  if (!allowed.includes(status))
-    return res.status(400).json({ error: 'Invalid status' });
+// PUT /api/orders/:id/status — admin: update status + notify customer
+router.put('/:id/status', auth, async (req, res) => {
+  try {
+    const { status } = req.body;
+    const allowed = ['new','confirmed','preparing','ready','delivered','cancelled'];
+    if (!allowed.includes(status)) return res.status(400).json({ error: 'Invalid status' });
 
-  run('UPDATE orders SET status=? WHERE id=?', [status, id]);
-  const order = get('SELECT * FROM orders WHERE id=?', [id]);
-  if (!order) return res.status(404).json({ error: 'Order not found' });
-  res.json(order);
+    const order = await Order.findByIdAndUpdate(req.params.id, { status }, { new: true });
+    if (!order) return res.status(404).json({ error: 'Order not found' });
+
+    // Send status update email to customer in background
+    if (order.email) {
+      sendStatusUpdate(order).catch(e => console.warn('Status email error:', e.message));
+    }
+
+    res.json(order);
+  } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
 // DELETE /api/orders/:id — admin
-router.delete('/:id', auth, (req, res) => {
-  const { id } = req.params;
-  const order = get('SELECT * FROM orders WHERE id=?', [id]);
-  if (!order) return res.status(404).json({ error: 'Order not found' });
-  run('DELETE FROM orders WHERE id=?', [id]);
-  res.json({ success: true });
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const order = await Order.findByIdAndDelete(req.params.id);
+    if (!order) return res.status(404).json({ error: 'Order not found' });
+    res.json({ success: true });
+  } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
 module.exports = router;

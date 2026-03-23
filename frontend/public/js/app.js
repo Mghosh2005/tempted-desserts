@@ -227,7 +227,7 @@ async function submitOrder(){
     `👤 Name: ${name}\n📞 Phone: ${phone}\n` +
     `${email ? '📧 Email: '+email+'\n' : ''}` +
     `🛒 Order: ${item}\n📝 Notes: ${note||'None'}`;
-  window.open(`https://wa.me/917585820245?text=${encodeURIComponent(msg)}`, '_blank');
+  window.open(`https://wa.me/917585820244?text=${encodeURIComponent(msg)}`, '_blank');
 
   document.getElementById('oBody').style.display = 'none';
   document.getElementById('oSuc').classList.add('show');
